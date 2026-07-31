@@ -1,16 +1,27 @@
-# latihan01_03
+# Latihan01 Flutter
 
-A new Flutter project.
+## Deskripsi Proyek
+Latihan01 Flutter merupakan proyek sederhana yang dibuat sebagai bagian dari tugas pembelajaran Flutter di SMK Brantas Karangkates. Proyek ini bertujuan untuk mempelajari dasar-dasar pengembangan aplikasi menggunakan framework Flutter dan bahasa pemrograman Dart.
 
-## Getting Started
+## Tujuan
+- Mempelajari struktur proyek Flutter.
+- Memahami penggunaan widget dasar.
+- Melatih penggunaan Git dan GitHub dalam pengelolaan versi proyek.
 
-This project is a starting point for a Flutter application.
+## Teknologi yang Digunakan
+- Flutter
+- Dart
+- Visual Studio Code
+- Git
+- GitHub
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Cara Menjalankan Proyek
+1. Pastikan Flutter SDK sudah terpasang.
+2. Jalankan perintah berikut:
+   ```bash
+   flutter pub get
+   ```
+3. Jalankan aplikasi:
+   ```bash
+   flutter run
+   ```
