@@ -15,7 +15,7 @@ void main() {
 
 
   bool tersedia = jumlah_stok > 0;
-  bool anggota = false; //false = pembeli umum, true = pembeli anggota
+  bool anggota = true; //false = pembeli umum, true = pembeli anggota
 
   String kategori = "Atk";
   String lokasi_rak;
@@ -54,7 +54,7 @@ void main() {
 
   //menghitung total belanja sebelum potongan
   double total_belanja = jumlah_beli * harga_satuan;
-
+  // double total_belanja = 50000; 
   //logika diskon
   double persen_diskon ;
   if (total_belanja >= 200000) {
