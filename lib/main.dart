@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+//Fungsi 1: Untuk menghitung total belanja
+double hitungTotal(int jumlah, double harga) {
+  return jumlah * harga;
+}
+
+//Fungsi 2: untuk menghitung harga akhir setelah potongan borongan
+double hitungHargaAkhir(double totalBelanja, double persenDiskon) {
+  return totalBelanja - (totalBelanja * persenDiskon / 100);   
+}
+
 
 void main() {
   //Deklarasi
@@ -9,8 +19,8 @@ void main() {
   double harga_umum = 10000.0;
   int jumlah_stok = 1000;
   int jumlah_beli= 78;
-  double total_anggota = jumlah_beli * harga_anggota;
-  double total_umum = jumlah_beli * harga_umum;
+  double total_anggota = hitungTotal(jumlah_beli, harga_anggota);
+  double total_umum = hitungTotal(jumlah_beli, harga_umum);
   double selisih_harga = total_umum - total_anggota;
 
 
@@ -32,11 +42,7 @@ void main() {
     default:
       lokasi_rak = "Rak Lain";
   }
-//Mengapa switch case digunakan pada program ini dari pada if else?
-//Karena switch case lebih efisien dan lebih mudah dibaca 
-//ketika ada banyak kondisi yang harus diperiksa berdasarkan nilai dari satu variabel.
-//serta menambah kategori baru di masa
-//depan cukup menambah satu blok "case" baru tanpa mengubah struktur if-else yang ada
+
   
   //Format Rupiah dengan package intl
   final formatRupiah = NumberFormat.currency(
@@ -53,18 +59,18 @@ void main() {
   }
 
   //menghitung total belanja sebelum potongan
-  double total_belanja = jumlah_beli * harga_satuan;
+  double total_belanja = hitungTotal(jumlah_beli, harga_satuan);
   //  double total_belanja = 50000; 
   //logika diskon
   double persen_diskon ;
   if (total_belanja >= 500000) {
-    persen_diskon = 0.15;
+    persen_diskon = 15;
   } else if (total_belanja >= 200000) {
-    persen_diskon = 0.10;
+    persen_diskon = 10;
   } else if (total_belanja >= 100000) {
-    persen_diskon = 0.05;
+    persen_diskon = 5;
   } else {
-    persen_diskon = 0.0;
+    persen_diskon = 0;
   }
 
   //Validasi jika input bernilai negatif
@@ -82,8 +88,8 @@ void main() {
     return;
   }
   //menghitung total belanja setelah potongan
-  double total_setelah_diskon = total_belanja * persen_diskon; 
-  double total_bayar = total_belanja - total_setelah_diskon;
+  double harga_akhir = hitungHargaAkhir(total_belanja, persen_diskon);
+  double nilai_potongan = total_belanja - harga_akhir;
 
 
 //Output
@@ -109,8 +115,8 @@ print('status pembeli : ${anggota ? "Anggota" : "Umum"}');
 print('Jumlah beli : $jumlah_beli pcs');
 print('Harga satuan : ${formatRupiah.format(harga_satuan)}');
 print('Total belanja : ${formatRupiah.format(total_belanja)}');
-print("Potongan Borongan : ${(persen_diskon * 100).toInt()}% (${formatRupiah.format(total_setelah_diskon)})");
-print("Total Bayar : ${formatRupiah.format(total_bayar)}");
+print("Potongan Borongan : ${(persen_diskon).toInt()}% (${formatRupiah.format(nilai_potongan)})");
+print("Harga Akhir : ${formatRupiah.format(harga_akhir)}");
 print("======================================");
 
 
@@ -135,6 +141,38 @@ while (stok_buku > 0) {
   stok_buku = stok_buku - 1;
   print("Terjual 1, Sisa stok: $stok_buku");
 }
+
+//Menjumlahkan selueruh stok menggunakan perulangan for
+List<String> Data_barang = <String>["Buku Tulis", "Pulpen", "Penghapus", "Roti"];
+List<double> Data_harga = <double>[5000, 2500, 1500, 5000];
+List<int> Data_stok = <int>[10, 3, 15, 5];
+
+double total_stok = 0;//untuk nilai awal akumulasi
+
+print("==========DAFTAR STOK KOPERASI===========");
+for (int i = 0; i < Data_barang.length; i++) {
+  double nilai_barang = Data_harga[i] * Data_stok[i];
+  total_stok = total_stok + nilai_barang;
+  print("${i + 1}. ${Data_barang[i]} - ${formatRupiah.format(Data_harga[i])} - Stok: ${Data_stok[i]} - Total Nilai: ${formatRupiah.format(nilai_barang)}");
+}
+
+print("===========================================");
+print("Total Nilai Seluruh Stok: ${formatRupiah.format(total_stok)}");
+
+//Menampilkan barang yang stoknya menipis menggunakan perulangan dan kondisi
+bool stok_menipis = false;
+print("==========BARANG STOK MENIPIS===========");
+for (int i = 0; i < Data_barang.length; i++) {
+  if (Data_stok[i] < 5) {
+    print(
+      "${Data_barang[i]} - pcs Harga: ${formatRupiah.format(Data_harga[i])} - Sisa: ${Data_stok[i]}");
+    stok_menipis = true;
+  }
+}
+if (!stok_menipis) {
+  print("Tidak ada barang yang stoknya menipis.");
+}
+
   runApp(const MyApp());
 }
 
@@ -208,6 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
 // Hal ini penting untuk menghindari kesalahan perhitungan, seperti pembulatan yang tidak diinginkan atau overflow, 
 //sehingga kasir dapat memberikan informasi yang akurat kepada pelanggan.
 
+
 //Bahaya apa yang muncul bila kondisi berhenti pada while keliru? 
 //Jika kondisi berhenti pada while keliru, misalnya tidak memeriksa stok dengan benar,
 //maka program dapat terus mengurangi stok bahkan ketika stok sudah habis,
@@ -215,3 +254,18 @@ class _MyHomePageState extends State<MyHomePage> {
 //bagaimana cara untuk memastikan koperasi tidak menjual melebihi stok?
 //Untuk memastikan koperasi tidak menjual melebihi stok, program harus memeriksa jumlah stok sebelum melakukan transaksi penjualan.
 //Jika jumlah beli melebihi stok, program harus menampilkan pesan kesalahan dan membatalkan transaksi.
+
+
+//Mengapa switch case digunakan pada program ini dari pada if else?
+//Karena switch case lebih efisien dan lebih mudah dibaca 
+//ketika ada banyak kondisi yang harus diperiksa berdasarkan nilai dari satu variabel.
+//serta menambah kategori baru di masa
+//depan cukup menambah satu blok "case" baru tanpa mengubah struktur if-else yang ada
+
+
+//Bagaimana pemecahan program menjadi fungsi membantu koperasi bila kelak aturan potongan diubah?
+//Pemecahan program menjadi fungsi membantu koperasi bila kelak aturan potongan diubah karena setiap fungsi memiliki tanggung jawab yang jelas dan terpisah.
+//Jika aturan potongan berubah, hanya fungsi yang terkait dengan perhitungan potongan yang perlu diperbarui, tanpa harus mengubah seluruh kode program.
+
+//Bagian mana yang cukup diubah sekali?
+//Bagian yang cukup diubah sekali adalah fungsi hitungHargaAkhir, karena fungsi ini bertanggung jawab untuk menghitung harga akhir setelah potongan
